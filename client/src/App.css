@@ -1,0 +1,156 @@
+/* client/src/App.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #fff5e6; /* Light Orange/Saffron tint */
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.App {
+  padding: 20px;
+}
+
+h1, h2 {
+  text-align: center;
+  color: #d35400; /* Deep Saffron */
+  margin-bottom: 20px;
+}
+
+/* Card Style for Form and Admin Panel */
+form, table {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  max-width: 500px;
+  margin: 0 auto 30px auto; /* Centered */
+}
+
+/* Inputs */
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box; /* Ensures padding doesn't break layout */
+}
+
+/* Button */
+button {
+  background-color: #ff9933; /* Saffron */
+  color: white;
+  padding: 14px 20px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #e67e22; /* Darker Orange on hover */
+}
+
+/* Admin Table Styles */
+table {
+  width: 100%;
+  max-width: 800px; /* Wider for the table */
+  border-collapse: collapse;
+}
+
+th {
+  background-color: #fce4ec;
+  color: #d35400;
+  text-align: left;
+  padding: 12px;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #fff8e1; /* Highlight row on hover */
+}
+
+/* --- MOBILE RESPONSIVE STYLES --- */
+@media (max-width: 600px) {
+  
+  /* 1. Adjust the Main Layout */
+  .App {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 24px; /* Smaller Title */
+  }
+
+  /* 2. Make Forms Full Width */
+  form {
+    padding: 15px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  input, select, button {
+    font-size: 16px; /* Prevent zooming on iPhone */
+    padding: 12px;
+  }
+
+  /* 3. The "Card View" Trick for Tables */
+  /* On mobile, we hide the standard table header and show rows as cards */
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  /* Hide the table headers (Name, Phone, etc.) */
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr {
+    margin-bottom: 15px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+
+  td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%; /* Make space for labels */
+    text-align: right;
+  }
+
+  td:before {
+    /* Add labels back so users know what the data is */
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+    color: #d35400;
+  }
+
+  /* Add the specific labels for each column */
+  td:nth-of-type(1):before { content: "Name"; }
+  td:nth-of-type(2):before { content: "Phone"; }
+  td:nth-of-type(3):before { content: "Room"; }
+  td:nth-of-type(4):before { content: "Action"; }
+}
