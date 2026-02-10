@@ -7,7 +7,7 @@ const AdminPanel = () => {
     // 1. Fetch bookings
     const fetchBookings = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/bookings');
+            const response = await axios.get('https://nashik-kumbh-2026.onrender.com/api/bookings');
             setBookings(response.data);
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -22,7 +22,7 @@ const AdminPanel = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to cancel this booking?")) {
             try {
-                await axios.delete(`http://localhost:5000/api/bookings/${id}`);
+                await axios.delete(`https://nashik-kumbh-2026.onrender.com/api/bookings/${id}`);
                 alert("🗑️ Booking Deleted!");
                 fetchBookings(); // Refresh the list instantly
             } catch (error) {

@@ -22,7 +22,7 @@ const BookingForm = () => {
         e.preventDefault(); // Stop page from reloading
         try {
             // Send data to Backend
-            const response = await axios.post('http://localhost:5000/api/bookings', formData);
+            const response = await axios.post('https://nashik-kumbh-2026.onrender.com/api/bookings', formData);
             alert(`✅ Booking Confirmed for ${response.data.name}!`);
             
             // Reset form
