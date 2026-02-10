@@ -7,7 +7,7 @@ const Accommodations = () => {
       id: 1,
       name: "Kumbh Mela Tent City",
       price: "₹1,500 / Night",
-      image: "https://images.unsplash.com/photo-1588392382834-a891154bca4d?auto=format&fit=crop&w=800&q=80", // Tent image
+      image: "https://media.istockphoto.com/id/2168346794/photo/colourful-tent-houses-in-the-lap-of-ganges.webp?a=1&b=1&s=612x612&w=0&k=20&c=SZP8-37c96W3n76uRDcuiWSdP7BU4QxwP8m3l9wB6Qg=", // Tent image
       desc: "Stay right next to the Godavari river in luxury Swiss tents. Includes meals and WiFi."
     },
     {

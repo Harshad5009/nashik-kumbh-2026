@@ -33,7 +33,9 @@ const Home = () => {
           <FaCalendarAlt size={40} style={{marginBottom: '15px'}} />
           <h3>Shahi Snan Dates</h3>
           <p>Aug-Sept 2026. Auspicious bathing days schedule.</p>
-          <button className="card-btn text-orange">View Schedule</button>
+          <Link to="/snan-dates">
+  <button className="card-btn text-orange">View Schedule</button>
+</Link>
         </div>
 
         {/* Card 2: Blue */}
@@ -41,7 +43,9 @@ const Home = () => {
           <FaMapMarkerAlt size={40} style={{marginBottom: '15px'}} />
           <h3>How to Reach</h3>
           <p>Air, Train, and Road connectivity guide to Nashik.</p>
-          <button className="card-btn text-blue">Get Directions</button>
+          <Link to="/travel">
+            <button className="card-btn text-blue">Get Directions</button>
+          </Link>
         </div>
 
         {/* Card 3: Green */}
@@ -59,7 +63,9 @@ const Home = () => {
           <FaGopuram size={40} style={{marginBottom: '15px'}} />
           <h3>Key Attractions</h3>
           <p>Trimbakeshwar, Panchvati, Muktidham, and more.</p>
-          <button className="card-btn text-red">Explore</button>
+          <Link to="/attractions">
+            <button className="card-btn text-red">Explore</button>
+          </Link>
         </div>
       </div>
 
