@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaCalendarCheck, FaMapMarkerAlt, FaWater } from 'react-icons/fa';
+import { FaCalendarCheck, FaMapMarkerAlt } from 'react-icons/fa';
 
 const SnanDates = () => {
   // Official Dates (Placeholder based on 2026 projections)
