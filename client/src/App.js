@@ -1,41 +1,46 @@
 import React, { useState } from 'react';
-import BookingForm from './BookingForm';
-import AdminPanel from './AdminPanel';
-import Login from './Login'; // Import the new Login component
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+// Import Components
+import Navbar from './components/Navbar';
+
+// Import Pages
+import Home from './pages/Home';
+import Accommodations from './pages/Accommodations'; // The List (Menu)
+import BookingForm from './pages/BookingForm';     // The Form (Order Pad)
+import AdminPanel from './pages/AdminPanel';
+import Login from './pages/Login';
 
 function App() {
-  // 1. State to track if admin is logged in
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
   return (
-    <div className="App">
-      <h1 style={{ textAlign: 'center', color: '#ff9933' }}>🕉️ Nashik Kumbh Mela 2026</h1>
-      
-      {/* 2. ALWAYS Show the Booking Form (For Visitors) */}
-      <BookingForm />
-
-      <hr style={{ margin: '40px 0', borderTop: '2px dashed #ccc' }} />
-
-      {/* 3. CONDITIONAL RENDERING (The Gatekeeper) */}
-      <div style={{ backgroundColor: '#f9f9f9', padding: '20px', borderRadius: '8px' }}>
-        <h2 style={{ textAlign: 'center', color: '#555' }}>Admin Access</h2>
+    <Router>
+      <div className="App">
+        <Navbar />
         
-        {/* If NOT logged in, show Login. If YES logged in, show AdminPanel */}
-        {!isAdminLoggedIn ? (
-          <Login onLogin={setIsAdminLoggedIn} />
-        ) : (
-          <div>
-             <button 
-                onClick={() => setIsAdminLoggedIn(false)}
-                style={{ backgroundColor: '#555', padding: '5px 15px', marginBottom: '10px', width: 'auto' }}
-             >
-                Logout
-             </button>
-             <AdminPanel />
-          </div>
-        )}
+        <Routes>
+          {/* 1. Homepage */}
+          <Route path="/" element={<Home />} />
+
+          {/* 2. The List of Hotels (Step 1 of the flow) */}
+          <Route path="/accommodations" element={<Accommodations />} />
+
+          {/* 3. The Booking Form (Step 2 of the flow) */}
+          {/* We renamed this path to "/book-now" so it makes sense */}
+          <Route path="/book-now" element={<BookingForm />} />
+
+          {/* 4. Admin Panel */}
+          <Route path="/admin" element={
+            !isAdminLoggedIn ? (
+              <Login onLogin={setIsAdminLoggedIn} />
+            ) : (
+              <AdminPanel />
+            )
+          } />
+        </Routes>
       </div>
-    </div>
+    </Router>
   );
 }
 
