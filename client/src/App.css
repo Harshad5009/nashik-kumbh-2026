@@ -264,3 +264,17 @@ body {
     height: auto;
   }
 }
+
+@keyframes blinker {
+  50% { opacity: 0; }
+}
+.blink {
+  color: red;
+  animation: blinker 1.5s linear infinite;
+}
+
+/* Ticker Animation */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}

@@ -1,6 +1,8 @@
 import TravelGuide from './pages/TravelGuide';
 import Attractions from './pages/Attractions';
 import SnanDates from './pages/SnanDates';
+import NewsTicker from './components/NewsTicker';
+import LostFound from './pages/LostFound';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -20,6 +22,7 @@ function App() {
   return (
     <Router>
       <div className="App">
+      <NewsTicker />
         <Navbar />
         
         <Routes>
@@ -27,6 +30,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/snan-dates" element={<SnanDates />} />
           <Route path="/attractions" element={<Attractions />} />
+          <Route path="/lost-found" element={<LostFound />} />
           {/* 2. The List of Hotels (Step 1 of the flow) */}
           <Route path="/accommodations" element={<Accommodations />} />
 

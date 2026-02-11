@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import CrowdStatus from '../components/CrowdStatus';
 import { Link } from 'react-router-dom';
 import { FaCalendarAlt, FaMapMarkerAlt, FaCampground, FaGopuram } from 'react-icons/fa';
 import '../App.css';
@@ -36,18 +37,11 @@ const Home = () => {
       <div 
         className="hero-gov" 
         style={{ 
-          // 1. Set the background image
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url(${heroImages[currentImageIndex]})`,
-          
-          // 2. FORCE the image to cover the screen properly
-          backgroundSize: 'cover',       // Ensures image fills the box
-          backgroundPosition: 'center',  // Centers the image
-          backgroundRepeat: 'no-repeat', // Prevents tiling
-          
-          // 3. Smooth fade effect
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
           transition: 'background-image 1s ease-in-out',
-          
-          // 4. Ensure it takes full width
           width: '100%'
         }}
       >
@@ -61,43 +55,58 @@ const Home = () => {
         </div>
       </div>
 
-      {/* 2. THE 4 COLORED CARDS */}
-      <div className="cards-container-gov">
-        <div className="card-gov bg-orange">
-          <FaCalendarAlt size={40} style={{marginBottom: '15px'}} />
-          <h3>Shahi Snan Dates</h3>
-          <p>Aug-Sept 2026. Auspicious bathing days schedule.</p>
-          <Link to="/snan-dates">
-            <button className="card-btn text-orange">View Schedule</button>
-          </Link>
-        </div>
+      {/* 2. LIVE CROWD DASHBOARD (Giving it proper space now) */}
+      <div style={{ 
+        maxWidth: '900px', 
+        margin: '-60px auto 40px auto', // Pulls it up slightly into Hero, but pushes cards down
+        position: 'relative', 
+        zIndex: 10,
+        padding: '0 20px'
+      }}>
+        <CrowdStatus />
+      </div>
 
+      {/* 3. THE 4 COLORED CARDS */}
+      <div className="cards-container-gov" style={{ marginTop: '0' }}> {/* Removed negative margin here */}
+        
+        {/* ... (Keep your 4 cards exactly as they are) ... */}
+        <div className="card-gov bg-orange">
+           {/* ... content ... */}
+           <FaCalendarAlt size={40} style={{marginBottom: '15px'}} />
+           <h3>Shahi Snan Dates</h3>
+           <p>Aug-Sept 2026. Auspicious bathing days schedule.</p>
+           <Link to="/snan-dates">
+             <button className="card-btn text-orange">View Schedule</button>
+           </Link>
+        </div>
+        
         <div className="card-gov bg-blue">
-          <FaMapMarkerAlt size={40} style={{marginBottom: '15px'}} />
-          <h3>How to Reach</h3>
-          <p>Air, Train, and Road connectivity guide to Nashik.</p>
-          <Link to="/travel">
+            <FaMapMarkerAlt size={40} style={{marginBottom: '15px'}} />
+            <h3>How to Reach</h3>
+            <p>Air, Train, and Road connectivity guide to Nashik.</p>
+            <Link to="/travel">
             <button className="card-btn text-blue">Get Directions</button>
-          </Link>
+            </Link>
         </div>
 
         <div className="card-gov bg-green">
-          <FaCampground size={40} style={{marginBottom: '15px'}} />
-          <h3>Accommodation</h3>
-          <p>Tent City, Hotels, and Ashram online booking.</p>
-          <Link to="/accommodations">
+            <FaCampground size={40} style={{marginBottom: '15px'}} />
+            <h3>Accommodation</h3>
+            <p>Tent City, Hotels, and Ashram online booking.</p>
+            <Link to="/accommodations">
             <button className="card-btn text-green">Book Stay</button>
-          </Link>
+            </Link>
         </div>
 
         <div className="card-gov bg-red">
-          <FaGopuram size={40} style={{marginBottom: '15px'}} />
-          <h3>Key Attractions</h3>
-          <p>Trimbakeshwar, Panchvati, Muktidham, and more.</p>
-          <Link to="/attractions">
+            <FaGopuram size={40} style={{marginBottom: '15px'}} />
+            <h3>Key Attractions</h3>
+            <p>Trimbakeshwar, Panchvati, Muktidham, and more.</p>
+            <Link to="/attractions">
             <button className="card-btn text-red">Explore</button>
-          </Link>
+            </Link>
         </div>
+
       </div>
 
       {/* 3. LEGEND SECTION */}
@@ -119,6 +128,28 @@ const Home = () => {
           className="legend-img" 
         />
       </div>
+      {/* FLOATING EMERGENCY ACTION BUTTON */}
+      <Link to="/lost-found">
+        <div style={{
+          position: 'fixed',
+          bottom: '30px',
+          right: '30px',
+          backgroundColor: '#c0392b',
+          color: 'white',
+          padding: '15px 25px',
+          borderRadius: '50px',
+          boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
+          fontWeight: 'bold',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          zIndex: 1000,
+          cursor: 'pointer',
+          border: '2px solid white'
+        }}>
+          🚨 Report Missing
+        </div>
+      </Link>
 
       {/* 4. FOOTER */}
       <div style={{backgroundColor: '#1a1a1a', color: 'white', padding: '20px', textAlign: 'center', fontSize: '0.8rem'}}>
