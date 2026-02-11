@@ -1,18 +1,54 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// Ensure you have installed icons: npm install react-icons
 import { FaCalendarAlt, FaMapMarkerAlt, FaCampground, FaGopuram } from 'react-icons/fa';
 import '../App.css';
 
+// The list of images
+const heroImages = [
+  "/images/nashik-hero.png",
+  "/images/hero2.jpg",
+  "/images/hero3.jpg",
+  "/images/hero4.jpg"
+];
+
 const Home = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    // Preload images to prevent flickering
+    heroImages.forEach((img) => {
+      const i = new Image();
+      i.src = img;
+    });
+
+    const intervalId = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 3000); 
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <div>
-      {/* 1. HERO SECTION */}
+      {/* 1. HERO SECTION - FIXED IMAGE SCALING */}
       <div 
         className="hero-gov" 
         style={{ 
-          /* We changed .jpg to .png here to match your file! */
-          backgroundImage: `linear-gradient(rgba(104, 8, 8, 0.5), rgba(104, 8, 8, 0.7)), url(/images/nashik-hero.png)` 
+          // 1. Set the background image
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url(${heroImages[currentImageIndex]})`,
+          
+          // 2. FORCE the image to cover the screen properly
+          backgroundSize: 'cover',       // Ensures image fills the box
+          backgroundPosition: 'center',  // Centers the image
+          backgroundRepeat: 'no-repeat', // Prevents tiling
+          
+          // 3. Smooth fade effect
+          transition: 'background-image 1s ease-in-out',
+          
+          // 4. Ensure it takes full width
+          width: '100%'
         }}
       >
         <Link to="/accommodations">
@@ -27,18 +63,15 @@ const Home = () => {
 
       {/* 2. THE 4 COLORED CARDS */}
       <div className="cards-container-gov">
-        
-        {/* Card 1: Orange */}
         <div className="card-gov bg-orange">
           <FaCalendarAlt size={40} style={{marginBottom: '15px'}} />
           <h3>Shahi Snan Dates</h3>
           <p>Aug-Sept 2026. Auspicious bathing days schedule.</p>
           <Link to="/snan-dates">
-  <button className="card-btn text-orange">View Schedule</button>
-</Link>
+            <button className="card-btn text-orange">View Schedule</button>
+          </Link>
         </div>
 
-        {/* Card 2: Blue */}
         <div className="card-gov bg-blue">
           <FaMapMarkerAlt size={40} style={{marginBottom: '15px'}} />
           <h3>How to Reach</h3>
@@ -48,7 +81,6 @@ const Home = () => {
           </Link>
         </div>
 
-        {/* Card 3: Green */}
         <div className="card-gov bg-green">
           <FaCampground size={40} style={{marginBottom: '15px'}} />
           <h3>Accommodation</h3>
@@ -58,7 +90,6 @@ const Home = () => {
           </Link>
         </div>
 
-        {/* Card 4: Red */}
         <div className="card-gov bg-red">
           <FaGopuram size={40} style={{marginBottom: '15px'}} />
           <h3>Key Attractions</h3>
@@ -82,7 +113,6 @@ const Home = () => {
           </p>
         </div>
         
-        {/* IMPORTANT: Now referencing the local file in public/images */}
         <img 
           src="/images/samudra-manthan.jpg" 
           alt="Samudra Manthan Painting" 
