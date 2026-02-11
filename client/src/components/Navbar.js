@@ -22,6 +22,7 @@ const Navbar = () => {
       <ul className="nav-links-gov">
         <li><Link to="/">Home</Link></li>
         <li><Link to="/accommodations">Accommodation</Link></li>
+        <li><Link to="/bus">City Bus 🚌</Link></li>
         <li><Link to="/admin">Official Login</Link></li>
         <li>
   <Link to="/lost-found" style={{ color: '#ff4d4d', fontWeight: 'bold' }}>
