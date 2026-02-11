@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { jsPDF } from "jspdf"; // Import the PDF tool
 import '../App.css'; 
 
 const BookingForm = () => {
@@ -7,7 +8,7 @@ const BookingForm = () => {
     email: '',
     phone: '',
     guests: 1,
-    roomType: 'Luxury Tent', // Default
+    roomType: 'Luxury Tent',
     checkIn: '',
     checkOut: ''
   });
@@ -16,26 +17,84 @@ const BookingForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // --- THE MAGIC PDF FUNCTION ---
+  const generatePDF = (bookingId) => {
+    const doc = new jsPDF();
+
+    // 1. Header (Maroon Background)
+    doc.setFillColor(104, 8, 8); // Maroon
+    doc.rect(0, 0, 210, 40, 'F'); // Top bar
+    
+    // 2. Text: Title
+    doc.setTextColor(255, 255, 255); // White
+    doc.setFontSize(22);
+    doc.setFont("times", "bold");
+    doc.text("Nashik Kumbh Mela 2026", 105, 20, null, null, "center");
+    
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.text("Official Booking Acknowledgement", 105, 30, null, null, "center");
+
+    // 3. Booking Details
+    doc.setTextColor(0, 0, 0); // Black
+    doc.setFontSize(14);
+    doc.text(`Booking ID: #${bookingId}`, 20, 60);
+    doc.text(`Date: ${new Date().toLocaleDateString()}`, 140, 60);
+
+    doc.setLineWidth(0.5);
+    doc.line(20, 65, 190, 65); // Horizontal line
+
+    // 4. Content
+    doc.setFontSize(12);
+    doc.text(`Namaste ${formData.name},`, 20, 80);
+    doc.text("Your accommodation for the Divine Yatra has been confirmed.", 20, 90);
+
+    // 5. Table of Details
+    doc.setDrawColor(0);
+    doc.setFillColor(245, 245, 245);
+    doc.rect(20, 100, 170, 60, 'F'); // Grey box
+
+    doc.setFont("helvetica", "bold");
+    doc.text("Booking Summary:", 25, 110);
+    
+    doc.setFont("helvetica", "normal");
+    doc.text(`• Accommodation: ${formData.roomType}`, 25, 125);
+    doc.text(`• Guests: ${formData.guests}`, 25, 135);
+    doc.text(`• Check-In: ${formData.checkIn}`, 25, 145);
+    doc.text(`• Check-Out: ${formData.checkOut}`, 25, 155);
+    doc.text(`• Contact: ${formData.phone}`, 25, 165);
+
+    // 6. Footer / QR Placeholder
+    doc.setTextColor(104, 8, 8);
+    doc.setFontSize(10);
+    doc.text("Please show this receipt at the entry gate.", 105, 180, null, null, "center");
+    doc.text("Nashik Municipal Corporation | Smart Kumbh Initiative", 105, 280, null, null, "center");
+
+    // 7. Save
+    doc.save(`Kumbh_Receipt_${formData.name}.pdf`);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // 1. GET EXISTING BOOKINGS
+    // 1. Save to Local Storage (Admin Panel)
     const existingBookings = JSON.parse(localStorage.getItem('kumbhBookings')) || [];
+    const bookingId = Math.floor(1000 + Math.random() * 9000); // Random 4-digit ID
     
-    // 2. ADD NEW BOOKING
     const newBooking = {
       ...formData,
-      id: Date.now(), // Unique ID
+      id: bookingId,
       date: new Date().toLocaleDateString(),
       status: 'Confirmed'
     };
     
     existingBookings.push(newBooking);
-    
-    // 3. SAVE BACK TO LOCAL STORAGE
     localStorage.setItem('kumbhBookings', JSON.stringify(existingBookings));
 
-    alert(`Booking Confirmed for ${formData.name}! \n(Data saved to Admin Panel)`);
+    // 2. Generate PDF Receipt
+    generatePDF(bookingId);
+
+    alert(`Booking Confirmed! \nDownloading your Official Receipt...`);
     
     // Reset form
     setFormData({
@@ -76,7 +135,7 @@ const BookingForm = () => {
             </div>
           </div>
 
-          <button type="submit" style={styles.button}>Confirm Booking</button>
+          <button type="submit" style={styles.button}>Confirm & Download Receipt</button>
         </form>
       </div>
     </div>
