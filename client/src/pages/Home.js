@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import CrowdStatus from '../components/CrowdStatus';
 import { Link } from 'react-router-dom';
 import { FaCalendarAlt, FaMapMarkerAlt, FaCampground, FaGopuram } from 'react-icons/fa';
 import '../App.css';
+import CrowdStatus from '../components/CrowdStatus';
 
-// The list of images
+// The list of images for the slideshow
 const heroImages = [
   "/images/nashik-hero.png",
   "/images/hero2.jpg",
@@ -15,50 +15,61 @@ const heroImages = [
 const Home = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  // Cycle through images every 4 seconds
   useEffect(() => {
-    // Preload images to prevent flickering
-    heroImages.forEach((img) => {
-      const i = new Image();
-      i.src = img;
-    });
-
     const intervalId = setInterval(() => {
       setCurrentImageIndex((prevIndex) => 
         prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
       );
-    }, 3000); 
+    }, 4000); 
 
     return () => clearInterval(intervalId);
   }, []);
 
   return (
     <div>
-      {/* 1. HERO SECTION - FIXED IMAGE SCALING */}
-      <div 
-        className="hero-gov" 
-        style={{ 
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url(${heroImages[currentImageIndex]})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          transition: 'background-image 1s ease-in-out',
-          width: '100%'
-        }}
-      >
-        <Link to="/accommodations">
-          <button className="plan-btn">Plan Your Yatra</button>
-        </Link>
+      {/* 1. HERO SECTION WITH SMOOTH CROSS-FADE */}
+      <div className="hero-gov" style={{ position: 'relative', overflow: 'hidden' }}>
         
-        <div style={{marginTop: '20px', fontWeight: 'bold', fontSize: '1.2rem'}}>Countdown to Mahakumbh:</div>
-        <div className="countdown-text">
-          185 Days : 12 Hours : 30 Minutes
+        {/* BACKGROUND LAYER: Render ALL images, but only show the current one */}
+        {heroImages.map((img, index) => (
+          <div 
+            key={index}
+            style={{
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url(${img})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              
+              // THE MAGIC: Fade in/out based on active index
+              opacity: currentImageIndex === index ? 1 : 0,
+              transition: 'opacity 1.5s ease-in-out', // 1.5s smooth fade
+              zIndex: 0
+            }}
+          />
+        ))}
+
+        {/* CONTENT LAYER: Sits on top of the images */}
+        <div style={{ position: 'relative', zIndex: 2, width: '100%' }}>
+          <Link to="/accommodations">
+            <button className="plan-btn">Plan Your Yatra</button>
+          </Link>
+          
+          <div style={{marginTop: '20px', fontWeight: 'bold', fontSize: '1.2rem'}}>Countdown to Mahakumbh:</div>
+          <div className="countdown-text">
+            185 Days : 12 Hours : 30 Minutes
+          </div>
         </div>
       </div>
 
-      {/* 2. LIVE CROWD DASHBOARD (Giving it proper space now) */}
+      {/* 2. LIVE CROWD DASHBOARD */}
       <div style={{ 
         maxWidth: '900px', 
-        margin: '-60px auto 40px auto', // Pulls it up slightly into Hero, but pushes cards down
+        margin: '-60px auto 40px auto', 
         position: 'relative', 
         zIndex: 10,
         padding: '0 20px'
@@ -67,49 +78,50 @@ const Home = () => {
       </div>
 
       {/* 3. THE 4 COLORED CARDS */}
-      <div className="cards-container-gov" style={{ marginTop: '0' }}> {/* Removed negative margin here */}
+      <div className="cards-container-gov" style={{ marginTop: '0' }}>
         
-        {/* ... (Keep your 4 cards exactly as they are) ... */}
+        {/* Card 1: Orange */}
         <div className="card-gov bg-orange">
-           {/* ... content ... */}
-           <FaCalendarAlt size={40} style={{marginBottom: '15px'}} />
-           <h3>Shahi Snan Dates</h3>
-           <p>Aug-Sept 2026. Auspicious bathing days schedule.</p>
-           <Link to="/snan-dates">
-             <button className="card-btn text-orange">View Schedule</button>
-           </Link>
+          <FaCalendarAlt size={40} style={{marginBottom: '15px'}} />
+          <h3>Shahi Snan Dates</h3>
+          <p>Aug-Sept 2026. Auspicious bathing days schedule.</p>
+          <Link to="/snan-dates">
+            <button className="card-btn text-orange">View Schedule</button>
+          </Link>
         </div>
-        
+
+        {/* Card 2: Blue */}
         <div className="card-gov bg-blue">
-            <FaMapMarkerAlt size={40} style={{marginBottom: '15px'}} />
-            <h3>How to Reach</h3>
-            <p>Air, Train, and Road connectivity guide to Nashik.</p>
-            <Link to="/travel">
+          <FaMapMarkerAlt size={40} style={{marginBottom: '15px'}} />
+          <h3>How to Reach</h3>
+          <p>Air, Train, and Road connectivity guide to Nashik.</p>
+          <Link to="/travel">
             <button className="card-btn text-blue">Get Directions</button>
-            </Link>
+          </Link>
         </div>
 
+        {/* Card 3: Green */}
         <div className="card-gov bg-green">
-            <FaCampground size={40} style={{marginBottom: '15px'}} />
-            <h3>Accommodation</h3>
-            <p>Tent City, Hotels, and Ashram online booking.</p>
-            <Link to="/accommodations">
+          <FaCampground size={40} style={{marginBottom: '15px'}} />
+          <h3>Accommodation</h3>
+          <p>Tent City, Hotels, and Ashram online booking.</p>
+          <Link to="/accommodations">
             <button className="card-btn text-green">Book Stay</button>
-            </Link>
+          </Link>
         </div>
 
+        {/* Card 4: Red */}
         <div className="card-gov bg-red">
-            <FaGopuram size={40} style={{marginBottom: '15px'}} />
-            <h3>Key Attractions</h3>
-            <p>Trimbakeshwar, Panchvati, Muktidham, and more.</p>
-            <Link to="/attractions">
+          <FaGopuram size={40} style={{marginBottom: '15px'}} />
+          <h3>Key Attractions</h3>
+          <p>Trimbakeshwar, Panchvati, Muktidham, and more.</p>
+          <Link to="/attractions">
             <button className="card-btn text-red">Explore</button>
-            </Link>
+          </Link>
         </div>
-
       </div>
 
-      {/* 3. LEGEND SECTION */}
+      {/* 4. LEGEND SECTION */}
       <div className="legend-section">
         <div className="legend-text">
           <h2>The Legend of Nashik Kumbh</h2>
@@ -128,6 +140,7 @@ const Home = () => {
           className="legend-img" 
         />
       </div>
+
       {/* FLOATING EMERGENCY ACTION BUTTON */}
       <Link to="/lost-found">
         <div style={{
@@ -151,7 +164,7 @@ const Home = () => {
         </div>
       </Link>
 
-      {/* 4. FOOTER */}
+      {/* 5. FOOTER */}
       <div style={{backgroundColor: '#1a1a1a', color: 'white', padding: '20px', textAlign: 'center', fontSize: '0.8rem'}}>
         © 2026 Nashik Kumbh Mela Committee. All Rights Reserved. | Government of Maharashtra
       </div>
